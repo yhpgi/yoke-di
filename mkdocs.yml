@@ -1,0 +1,55 @@
+site_name: Yoke DI
+site_url: https://yhpgi.github.io/yoke-di/
+repo_url: https://github.com/yhpgi/yoke-di
+repo_name: yhpgi/yoke-di
+edit_uri: ""
+
+theme:
+  name: material
+  language: id
+  logo: https://raw.githubusercontent.com/yhpgi/yoke-di/main/art/yoke-logo.png
+  favicon: https://raw.githubusercontent.com/yhpgi/yoke-di/main/art/yoke-logo.png
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Ganti ke mode gelap
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Ganti ke mode terang
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - attr_list
+
+nav:
+  - 'Beranda': 'index.md'
+  - 'Panduan Memulai': 'getting-started.md'
+  - 'Konsep Inti':
+    - 'Komponen': 'core-concepts/components.md'
+    - 'Injeksi Dependensi': 'core-concepts/injection.md'
+    - 'Modul & Provides': 'core-concepts/modules.md'
+    - 'Scoping': 'core-concepts/scoping.md'
+    - 'Qualifier': 'core-concepts/qualifiers.md'
+    - 'Assisted Injection': 'core-concepts/assisted-injection.md'
+  - 'Penggunaan Lanjutan':
+    - 'Injeksi Non-Composable': 'advanced/global-injection.md'
+    - 'Integrasi Android': 'advanced/android.md'
+  - 'API Reference': 'api/'

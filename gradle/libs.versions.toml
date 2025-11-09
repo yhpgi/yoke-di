@@ -1,0 +1,51 @@
+[versions]
+android-compileSdk = "36"
+android-minSdk = "24"
+android-targetSdk = "36"
+
+kotlin = "2.2.21"
+compose = "1.9.3"
+ksp = "2.2.21-2.0.4"
+kotlinpoet = "2.2.0"
+kotlinx-serialization-json = "1.9.0"
+android-gradle = "8.11.2"
+maven-publish = "0.34.0"
+androidx-activity = "1.11.0"
+androidx-appcompat = "1.7.1"
+android-worker-runtime-ktx = "2.11.0"
+jetbrains-viewmodel = "2.9.6"
+coroutines = "1.10.2"
+compose-hotreload = "1.0.0-rc02"
+navigation-compose = "2.9.1"
+dokka = "2.1.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+android-documentation-plugin = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "android-worker-runtime-ktx" }
+
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+kotlinpoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
+kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
+
+jetbrains-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-viewmodel" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+
+[plugins]
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle" }
+android-application = { id = "com.android.application", version.ref = "android-gradle" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotreload" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

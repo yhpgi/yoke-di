@@ -1,0 +1,51 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  workflow_dispatch:
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Generate Dokka API Documentation
+        run: |
+          chmod +x ./gradlew
+          ./gradlew dokkaGenerateHtml
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocs-awesome-pages-plugin pymdown-extensions
+
+      - name: Build MkDocs site
+        run: mkdocs build
+
+      - name: Copy Dokka files to site directory
+        run: |
+          mkdir -p site/api
+          cp -r build/dokka/html/* site/api/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
