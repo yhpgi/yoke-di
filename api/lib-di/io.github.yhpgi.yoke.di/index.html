@@ -1,0 +1,493 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>io.github.yhpgi.yoke.di</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
+                    yoke
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":lib-di/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":lib-di/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":lib-di/androidMain" data-filter=":lib-di/androidMain">
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":lib-di/commonMain" data-filter=":lib-di/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    yoke
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="lib-di::io.github.yhpgi.yoke.di////PointingToDeclaration//-2049761330">
+  <div class="breadcrumbs"><a href="../index.html">lib-di</a><span class="delimiter">/</span><span class="current">io.github.yhpgi.yoke.di</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="-1555658548%2FClasslikes%2F1446703874" anchor-label="AndroidYoke" id="-1555658548%2FClasslikes%2F1446703874" data-filterable-set=":lib-di/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/androidMain" data-filterable-set=":lib-di/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-android-yoke/index.html"><span>Android</span><wbr><span><span>Yoke</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1555658548%2FClasslikes%2F1446703874"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":lib-di/androidMain" data-filterable-set=":lib-di/androidMain" data-active="" data-toggle=":lib-di/androidMain">android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/androidMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-android-yoke/index.html">AndroidYoke</a></div><div class="brief "><p class="paragraph">A holder for Android-specific context and initialization logic for Yoke. This object provides a way to access the application context from anywhere in the app, which is crucial for many Android-specific dependencies.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2010420273%2FClasslikes%2F1556321240" anchor-label="DIContainer" id="-2010420273%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-i-container/index.html"><span><span>DIContainer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2010420273%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-d-i-container/index.html">DIContainer</a></div><div class="brief "><p class="paragraph">A marker interface for a Yoke dependency injection container. Both <code class="lang-kotlin">@YokeComponent</code> and <code class="lang-kotlin">@YokeSubcomponent</code> interfaces must extend this.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1440903711%2FClasslikes%2F1556321240" anchor-label="InjectBuilder" id="-1440903711%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-inject-builder/index.html"><span>Inject</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1440903711%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-inject-builder/index.html">InjectBuilder</a><span class="token operator">&lt;</span><a href="-inject-builder/index.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span> : <a href="-yoke-injection-builder/index.html">YokeInjectionBuilder</a></div><div class="brief "><p class="paragraph">A builder for configuring dependency injection with the <code class="lang-kotlin">inject</code> function.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="719750098%2FClasslikes%2F1556321240" anchor-label="LazyProvider" id="719750098%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-lazy-provider/index.html"><span>Lazy</span><wbr><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="719750098%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-lazy-provider/index.html">LazyProvider</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="-lazy-provider/index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">factory<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="-lazy-provider/index.html">T</a></span></span><span class="token punctuation">)</span> : <a href="-provider/index.html">Provider</a><span class="token operator">&lt;</span><a href="-lazy-provider/index.html">T</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">A provider that creates an instance of <a href="-lazy-provider/index.html">T</a> on every call to <a href="-lazy-provider/get.html">get</a>. This corresponds to an unscoped dependency.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-160822298%2FClasslikes%2F1556321240" anchor-label="Provider" id="-160822298%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-provider/index.html"><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-160822298%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-provider/index.html">Provider</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="-provider/index.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">A provider for a dependency of type <a href="-provider/index.html">T</a>. This is the fundamental building block for dependency injection.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-975981328%2FClasslikes%2F1556321240" anchor-label="ScopeBuilder" id="-975981328%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-scope-builder/index.html"><span>Scope</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-975981328%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-scope-builder/index.html">ScopeBuilder</a><span class="token operator">&lt;</span><a href="-scope-builder/index.html">T</a><span class="token operator"> : </span><a href="-d-i-container/index.html">DIContainer</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">A builder for managing the lifecycle and content of a scoped subcomponent. Used with the <code class="lang-kotlin">scope</code> function.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1700773169%2FClasslikes%2F1556321240" anchor-label="SingletonProvider" id="-1700773169%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-singleton-provider/index.html"><span>Singleton</span><wbr><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1700773169%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-singleton-provider/index.html">SingletonProvider</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="-singleton-provider/index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">provider<span class="token operator">: </span><a href="-provider/index.html">Provider</a><span class="token operator">&lt;</span><a href="-singleton-provider/index.html">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="-provider/index.html">Provider</a><span class="token operator">&lt;</span><a href="-singleton-provider/index.html">T</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">A provider that creates an instance of <a href="-singleton-provider/index.html">T</a> only once and caches it. Subsequent calls to <a href="-singleton-provider/get.html">get</a> return the cached instance. This corresponds to a scoped dependency (e.g., <code class="lang-kotlin">@Singleton</code>).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1341272864%2FClasslikes%2F1556321240" anchor-label="ViewModelBuilder" id="1341272864%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-view-model-builder/index.html"><span>View</span><wbr><span>Model</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1341272864%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-view-model-builder/index.html">ViewModelBuilder</a><span class="token operator">&lt;</span><a href="-view-model-builder/index.html">T</a><span class="token operator"> : </span><a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html">ViewModel</a><span class="token operator">&gt;</span> : <a href="-yoke-injection-builder/index.html">YokeInjectionBuilder</a></div><div class="brief "><p class="paragraph">A builder for configuring ViewModel injection with the <code class="lang-kotlin">injectViewModel</code> function.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1700804779%2FClasslikes%2F1446703874" anchor-label="YokeApplication" id="1700804779%2FClasslikes%2F1446703874" data-filterable-set=":lib-di/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/androidMain" data-filterable-set=":lib-di/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-application/index.html"><span>Yoke</span><wbr><span><span>Application</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1700804779%2FClasslikes%2F1446703874"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":lib-di/androidMain" data-filterable-set=":lib-di/androidMain" data-active="" data-toggle=":lib-di/androidMain">android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/androidMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-yoke-application/index.html">YokeApplication</a> : <a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a></div><div class="brief "><p class="paragraph">A base <code class="lang-kotlin">Application</code> class that automatically initializes AndroidYoke. Extend this class for a simple way to set up Yoke in your Android app.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1274762796%2FClasslikes%2F1556321240" anchor-label="YokeContext" id="1274762796%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-context/index.html"><span>Yoke</span><wbr><span><span>Context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1274762796%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-yoke-context/index.html">YokeContext</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>root<span class="token operator">: </span><a href="-d-i-container/index.html">DIContainer</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Manages the lifecycle of subcomponents. It ensures that only one instance of a given subcomponent exists at a time and handles their creation and destruction.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="116349924%2FClasslikes%2F1556321240" anchor-label="YokeGlobal" id="116349924%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-global/index.html"><span>Yoke</span><wbr><span><span>Global</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="116349924%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-yoke-global/index.html">YokeGlobal</a></div><div class="brief "><p class="paragraph">A global holder for the Yoke dependency injection container and resolver. This object enables non-composable access to the DI graph via <a href="inject-global.html">injectGlobal</a>. It should be initialized once at application startup, which is handled automatically by the generated <code class="lang-kotlin">YokeApplication</code> composable.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1535947151%2FClasslikes%2F1556321240" anchor-label="YokeInjectDsl" id="1535947151%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-inject-dsl/index.html"><span>Yoke</span><wbr><span>Inject</span><wbr><span><span>Dsl</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1535947151%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-dsl-marker/index.html"><span class="token annotation builtin">DslMarker</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-target/index.html"><span class="token annotation builtin">Target</span></a><span class="token punctuation">(</span><span>allowedTargets<span class="token operator"> = </span><span class="token punctuation">[</span><span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-annotation-target/-c-l-a-s-s/index.html">AnnotationTarget.CLASS</a><span class="token punctuation">, </span></span><wbr><span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-annotation-target/-f-u-n-c-t-i-o-n/index.html">AnnotationTarget.FUNCTION</a><span class="token punctuation">, </span></span><wbr><span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-annotation-target/-t-y-p-e/index.html">AnnotationTarget.TYPE</a></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">annotation class </span><a href="-yoke-inject-dsl/index.html">YokeInjectDsl</a></div><div class="brief "><p class="paragraph">A DSL marker for Yoke's injection and scoping APIs to ensure proper nesting and usage.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1123187811%2FClasslikes%2F1556321240" anchor-label="YokeInjectionBuilder" id="1123187811%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-injection-builder/index.html"><span>Yoke</span><wbr><span>Injection</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1123187811%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-yoke-injection-builder/index.html">YokeInjectionBuilder</a></div><div class="brief "><p class="paragraph">The base class for Yoke's DSL builders, providing common functionality like qualifiers.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2089049247%2FClasslikes%2F1556321240" anchor-label="YokeResolver" id="-2089049247%2FClasslikes%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-resolver/index.html"><span>Yoke</span><wbr><span><span>Resolver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2089049247%2FClasslikes%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-yoke-resolver/index.html">YokeResolver</a></div><div class="brief "><p class="paragraph">The core resolver interface for Yoke. It provides access to any <code class="lang-kotlin">Provider&lt;T&gt;</code> within the dependency graph.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-354466729%2FProperties%2F1556321240" anchor-label="LocalDIContainer" id="-354466729%2FProperties%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-local-d-i-container.html"><span>Local</span><wbr><span><span>DIContainer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-354466729%2FProperties%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-local-d-i-container.html">LocalDIContainer</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/ProvidableCompositionLocal.html">ProvidableCompositionLocal</a><span class="token operator">&lt;</span><a href="-d-i-container/index.html">DIContainer</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">A <code class="lang-kotlin">CompositionLocal</code> that holds the root <a href="-d-i-container/index.html">DIContainer</a> for the current composition. Access this via <code class="lang-kotlin">LocalDIContainer.current</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1364250956%2FProperties%2F1556321240" anchor-label="LocalYokeContext" id="-1364250956%2FProperties%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-local-yoke-context.html"><span>Local</span><wbr><span>Yoke</span><wbr><span><span>Context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1364250956%2FProperties%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-local-yoke-context.html">LocalYokeContext</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/ProvidableCompositionLocal.html">ProvidableCompositionLocal</a><span class="token operator">&lt;</span><a href="-yoke-context/index.html">YokeContext</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">A <code class="lang-kotlin">CompositionLocal</code> that holds the current <a href="-yoke-context/index.html">YokeContext</a>. The context manages subcomponent lifecycles.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-646724239%2FProperties%2F1556321240" anchor-label="LocalYokeResolver" id="-646724239%2FProperties%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-local-yoke-resolver.html"><span>Local</span><wbr><span>Yoke</span><wbr><span><span>Resolver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-646724239%2FProperties%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-local-yoke-resolver.html">LocalYokeResolver</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/ProvidableCompositionLocal.html">ProvidableCompositionLocal</a><span class="token operator">&lt;</span><a href="-yoke-resolver/index.html">YokeResolver</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">A <code class="lang-kotlin">CompositionLocal</code> that holds the current <a href="-yoke-resolver/index.html">YokeResolver</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="371240996%2FFunctions%2F1556321240" anchor-label="inject" id="371240996%2FFunctions%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inject.html"><span><span>inject</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="371240996%2FFunctions%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="inject.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="inject.html"><span class="token function">inject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">noinline </span>builder<span class="token operator">: </span><a href="-inject-builder/index.html">InjectBuilder</a><span class="token operator">&lt;</span><a href="inject.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="inject.html">T</a></div><div class="brief "><p class="paragraph">The main DSL entry point for dependency injection in Composable functions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1362382235%2FFunctions%2F1446703874" anchor-label="inject" id="1362382235%2FFunctions%2F1446703874" data-filterable-set=":lib-di/androidMain"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":lib-di/androidMain" data-filterable-set=":lib-di/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inject.html"><span><span>inject</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1362382235%2FFunctions%2F1446703874"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":lib-di/androidMain" data-filterable-set=":lib-di/androidMain" data-active="" data-toggle=":lib-di/androidMain">android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/androidMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="inject.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">.</span><a href="inject.html"><span class="token function">inject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">builder<span class="token operator">: </span><a href="-inject-builder/index.html">InjectBuilder</a><span class="token operator">&lt;</span><a href="inject.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="inject.html">T</a></div><div class="brief "><p class="paragraph">Provides a DSL-style way to inject dependencies using the Android <code class="lang-kotlin">Context</code>. This is a convenience function that delegates to <a href="inject-global.html">injectGlobal</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1178995481%2FFunctions%2F1556321240" anchor-label="injectGlobal" id="-1178995481%2FFunctions%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inject-global.html"><span>inject</span><wbr><span><span>Global</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1178995481%2FFunctions%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="inject-global.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="inject-global.html"><span class="token function">injectGlobal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">builder<span class="token operator">: </span><a href="-inject-builder/index.html">InjectBuilder</a><span class="token operator">&lt;</span><a href="inject-global.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="inject-global.html">T</a></div><div class="brief "><p class="paragraph">A DSL entry point for non-composable dependency injection. Use this in background threads, services, workers, or other parts of your app outside the composition.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="821271385%2FFunctions%2F1556321240" anchor-label="injectViewModel" id="821271385%2FFunctions%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inject-view-model.html"><span>inject</span><wbr><span>View</span><wbr><span><span>Model</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="821271385%2FFunctions%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="inject-view-model.html">T</a><span class="token operator"> : </span><a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html">ViewModel</a><span class="token operator">&gt; </span><a href="inject-view-model.html"><span class="token function">injectViewModel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">noinline </span>builder<span class="token operator">: </span><a href="-view-model-builder/index.html">ViewModelBuilder</a><span class="token operator">&lt;</span><a href="inject-view-model.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="inject-view-model.html">T</a></div><div class="brief "><p class="paragraph">The main DSL entry point for ViewModel injection in Composable functions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-831748626%2FFunctions%2F1556321240" anchor-label="Scope" id="-831748626%2FFunctions%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-scope.html"><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-831748626%2FFunctions%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="-scope.html">T</a><span class="token operator"> : </span><a href="-d-i-container/index.html">DIContainer</a><span class="token operator">&gt; </span><a href="-scope.html"><span class="token function">Scope</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">noinline </span>builder<span class="token operator">: </span><a href="-scope-builder/index.html">ScopeBuilder</a><span class="token operator">&lt;</span><a href="-scope.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The DSL entry point for managing a scoped subcomponent's lifecycle and content. It automatically creates the component when active and destroys it when inactive.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="97650580%2FFunctions%2F1556321240" anchor-label="YokeApplication" id="97650580%2FFunctions%2F1556321240" data-filterable-set=":lib-di/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":lib-di/commonMain" data-filterable-set=":lib-di/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-yoke-application.html"><span>Yoke</span><wbr><span><span>Application</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="97650580%2FFunctions%2F1556321240"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">fun </span><a href="-yoke-application.html"><span class="token function"><strike>YokeApplication</strike></span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">content<span class="token operator">: </span><span><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a>&nbsp;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This is a stub for the <code class="lang-kotlin">YokeApplication</code> composable. The actual implementation is generated by the KSP processor based on your <code class="lang-kotlin">@YokeEntryPoint</code> component. If you see this error, ensure that KSP is configured correctly and your project has been built.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2025 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
