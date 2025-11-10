@@ -28,7 +28,10 @@ fun ScopeScreen() {
 
   Scaffold { padding ->
     Column(
-      modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(padding)
+        .padding(16.dp)
         .verticalScroll(rememberScrollState())
     ) {
       InfoCard(
@@ -93,7 +96,7 @@ fun ScopeScreen() {
       Scope<UserComponent> {
         active { state.isLoggedIn }
 
-        whenActive {
+        whenActive { _ ->
           val userViewModel = injectViewModel<UserScopeViewModel>()
           val userState by userViewModel.state.collectAsState()
           Text("Hello, ${userState.username}!")

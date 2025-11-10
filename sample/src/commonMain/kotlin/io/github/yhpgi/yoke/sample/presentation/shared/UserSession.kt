@@ -25,7 +25,7 @@ fun UserSession(
 
   Scope<UserComponent> {
     active { isLoggedIn }
-    whenActive(loggedInContent)
+    whenActive { loggedInContent() }
     whenInactive(loggedOutContent)
   }
 }

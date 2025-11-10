@@ -343,7 +343,7 @@ class ScopeBuilder<T : DIContainer> @PublishedApi internal constructor(
   private val component: KClass<T>
 ) {
   private var activeCondition: () -> Boolean = { true }
-  private var activeContent: @Composable () -> Unit = {}
+  private var activeContent: @Composable (T) -> Unit = {}
   private var inactiveContent: @Composable () -> Unit = {}
   private var onActivateCallback: (() -> Unit)? = null
   private var onDeactivateCallback: (() -> Unit)? = null
@@ -361,7 +361,7 @@ class ScopeBuilder<T : DIContainer> @PublishedApi internal constructor(
    * Dependencies from the subcomponent can be injected within this content.
    * @param content The Composable content for the active state.
    */
-  fun whenActive(content: @Composable () -> Unit) {
+  fun whenActive(content: @Composable (T) -> Unit) {
     activeContent = content
   }
 
@@ -396,8 +396,10 @@ class ScopeBuilder<T : DIContainer> @PublishedApi internal constructor(
 
     if (isActive) {
       val provider = resolver.getProvider(component, null)
-      remember(provider) { provider.get() }
-      activeContent()
+
+      @Suppress("UNCHECKED_CAST")
+      val componentInstance = remember(provider) { provider.get() }
+      activeContent(componentInstance)
     } else {
       inactiveContent()
     }

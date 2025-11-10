@@ -33,11 +33,14 @@ fun QualifierScreen() {
     Scope<UserComponent> {
       active { isLoggedIn }
 
-      whenActive {
+      whenActive { _ ->
         LaunchedEffect(Unit) { viewModel.onEvent(QualifierEvent.LoadUsernames) }
 
         Column(
-          modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)
+          modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+            .padding(16.dp)
             .verticalScroll(rememberScrollState())
         ) {
           InfoCard(

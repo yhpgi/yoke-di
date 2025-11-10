@@ -33,7 +33,11 @@ fun DslScreen() {
 
   Scaffold { padding ->
     Column(
-      modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp).verticalScroll(rememberScrollState())
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(padding)
+        .padding(16.dp)
+        .verticalScroll(rememberScrollState())
     ) {
       InfoCard(
         title = "Complete DSL-Style API",
@@ -116,7 +120,7 @@ fun DslScreen() {
       Scope<UserComponent> {
         active { isLoggedIn }
 
-        whenActive {
+        whenActive { _ ->
           val userRepository = inject<UserRepository> {
             qualifiedBy(PremiumUser::class)
           }
