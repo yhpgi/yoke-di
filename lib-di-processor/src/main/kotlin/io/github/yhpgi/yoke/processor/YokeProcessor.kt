@@ -57,6 +57,7 @@ class YokeProcessor(
     val contributionMap = buildContributionMap(resolver)
     val parentMap = buildParentComponentMap(contributionMap)
     val graph = buildDependencyGraph(contributionMap)
+    detectCycles(graph)
     val allFiles = resolver.getAllFiles().toList().toTypedArray()
 
     allComponents.forEach { component ->
@@ -492,8 +493,7 @@ class YokeProcessor(
             .addTypeVariable(TypeVariableName("T", ANY))
             .addParameter("kClass", ClassName("kotlin.reflect", "KClass").parameterizedBy(TypeVariableName("T")))
             .addParameter(
-              "qualifier",
-              ClassName("kotlin.reflect", "KClass").parameterizedBy(STAR).copy(nullable = true)
+              "qualifier", ClassName("kotlin.reflect", "KClass").parameterizedBy(STAR).copy(nullable = true)
             ).returns(ClassName("io.github.yhpgi.yoke.di", "Provider").parameterizedBy(TypeVariableName("T")))
             .addStatement("return getProvider(%T.current, kClass, qualifier)", yokeContextCn).build()
         )
@@ -503,8 +503,7 @@ class YokeProcessor(
             .addParameter("context", yokeContextCn)
             .addParameter("kClass", ClassName("kotlin.reflect", "KClass").parameterizedBy(TypeVariableName("T")))
             .addParameter(
-              "qualifier",
-              ClassName("kotlin.reflect", "KClass").parameterizedBy(STAR).copy(nullable = true)
+              "qualifier", ClassName("kotlin.reflect", "KClass").parameterizedBy(STAR).copy(nullable = true)
             ).returns(ClassName("io.github.yhpgi.yoke.di", "Provider").parameterizedBy(TypeVariableName("T")))
             .addCode(buildResolverCode(graph, parentMap, rootComponent)).build()
         )
@@ -652,6 +651,40 @@ class YokeProcessor(
         ClassName("io.github.yhpgi.yoke.di", "LocalYokeContext"),
         ClassName("io.github.yhpgi.yoke.di", "LocalYokeResolver")
       ).build()
+  }
+
+  /**
+   * Detects cyclic dependencies in the graph.
+   * If a cycle is found, it logs an error.
+   */
+  private fun detectCycles(graph: Map<DependencyKey, DependencyNode>) {
+    val visiting = mutableSetOf<DependencyKey>()
+    val visited = mutableSetOf<DependencyKey>()
+
+    fun dfs(key: DependencyKey, path: List<DependencyKey>) {
+      visiting.add(key)
+      graph[key]?.dependencies?.forEach { dependencyKey ->
+        if (dependencyKey in visiting) {
+          val cyclePath = path.subList(path.indexOf(dependencyKey), path.size)
+          logger.error(
+            "Cyclic dependency detected: ${cyclePath.joinToString(" -> ") { it.typeName.toString() }} -> ${dependencyKey.typeName}",
+            graph[key]?.declaration
+          )
+          return
+        }
+        if (dependencyKey !in visited) {
+          dfs(dependencyKey, path + dependencyKey)
+        }
+      }
+      visiting.remove(key)
+      visited.add(key)
+    }
+
+    graph.keys.forEach { key ->
+      if (key !in visited) {
+        dfs(key, listOf(key))
+      }
+    }
   }
 
   private fun KSClassDeclaration.getAssistedFactoryInterface(): KSType? {
