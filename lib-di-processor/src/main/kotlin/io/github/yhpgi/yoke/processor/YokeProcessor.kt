@@ -29,6 +29,9 @@ class YokeProcessor(
   private val singletonCn = ClassName("io.github.yhpgi.yoke.di", "SingletonProvider")
   private val containerCn = ClassName("io.github.yhpgi.yoke.di", "DIContainer")
   private val viewModelCn = ClassName("androidx.lifecycle", "ViewModel")
+  private val savedStateHandleCn = ClassName("androidx.lifecycle", "SavedStateHandle")
+  private val createSavedStateHandleMn = MemberName("androidx.lifecycle", "createSavedStateHandle")
+  private val viewModelProviderCn = ClassName("io.github.yhpgi.yoke.di", "ViewModelProvider")
   private val generatedFiles = mutableSetOf<ClassName>()
 
   /**
@@ -83,6 +86,11 @@ class YokeProcessor(
           val targetComponent = scopeType?.declaration as? KSClassDeclaration
           if (targetComponent != null) {
             map.getOrPut(targetComponent) { mutableListOf() }.add(contribution)
+          } else {
+            logger.error(
+              "Invalid @ContributesTo annotation: Unable to resolve target component. " + "Ensure the scope parameter is a valid @YokeComponent or @YokeSubcomponent class.",
+              contribution
+            )
           }
         }
       }
@@ -132,12 +140,15 @@ class YokeProcessor(
       contributions.forEach { contribution ->
         val hostComponent = findHostComponent(contribution, contributionMap)
         if (hostComponent == null) {
-          logger.error("Could not find host component for ${contribution.qualifiedName?.asString()}", contribution)
+          logger.error(
+            "Unable to determine host component for ${contribution.qualifiedName?.asString()}. " + "Ensure this declaration has a valid @ContributesTo annotation pointing to a @YokeComponent or @YokeSubcomponent.",
+            contribution
+          )
           return@forEach
         }
 
         when (contribution) {
-          is KSClassDeclaration if (contribution.isInjectable() || contribution.getScope() != null) -> {
+          is KSClassDeclaration if (contribution.isInjectable() || contribution.getScope() != null) && contribution.classKind != ClassKind.INTERFACE -> {
             parseInjectableClass(contribution, componentScope, hostComponent)?.let { node ->
               graph[node.key] = node
 
@@ -151,6 +162,11 @@ class YokeProcessor(
                   val factoryKey = DependencyKey(factoryInterface.toTypeName(), null)
                   graph[factoryKey] = node.copy(
                     key = factoryKey, assistedParams = emptyList(), isFactory = true
+                  )
+                } else {
+                  logger.error(
+                    "Class ${contribution.simpleName.asString()} has @Assisted parameters but no Factory interface. " + "Define a nested interface named 'Factory' with a 'create' method that accepts the @Assisted parameters.",
+                    contribution
                   )
                 }
               }
@@ -181,17 +197,36 @@ class YokeProcessor(
   private fun parseInjectableClass(
     symbol: KSClassDeclaration, componentScope: ClassName?, hostComponent: KSClassDeclaration
   ): DependencyNode? {
-    val constructor = symbol.primaryConstructor ?: return null
+    val constructor = symbol.primaryConstructor
+    if (constructor == null) {
+      logger.error(
+        "Class ${symbol.simpleName.asString()} is marked @Injectable but has no primary constructor. " + "Add a primary constructor to enable dependency injection.",
+        symbol
+      )
+      return null
+    }
+
     val key = DependencyKey(symbol.asStarProjectedType().toTypeName(), symbol.getQualifier())
     val scope = symbol.getScope() ?: componentScope
 
     val bindsAnnotation = symbol.annotations.find { it.shortName.asString() == "Binds" }
     val explicitBind =
       (bindsAnnotation?.arguments?.find { it.name?.asString() == "to" }?.value as? KSType)?.takeUnless { it.toClassName() == Nothing::class.asClassName() }
-        ?.let { DependencyKey(it.toTypeName(), symbol.getQualifier()) }
+        ?.let { bindType ->
+          if (!symbol.getAllSuperTypes().any { it.toTypeName() == bindType.toTypeName() }) {
+            logger.error(
+              "Invalid @Binds annotation: ${symbol.simpleName.asString()} does not implement or extend ${bindType.toTypeName()}. " + "Ensure the 'to' parameter specifies a valid supertype.",
+              symbol
+            )
+            null
+          } else {
+            DependencyKey(bindType.toTypeName(), symbol.getQualifier())
+          }
+        }
 
-    val regularParams = constructor.parameters.filter { !it.isAssisted() }
+    val regularParams = constructor.parameters.filter { !it.isAssisted() && !it.isSavedStateHandle() }
     val assistedParams = constructor.parameters.filter { it.isAssisted() }
+    val hasSavedStateHandle = constructor.parameters.any { it.isSavedStateHandle() }
 
     return DependencyNode(
       key = key,
@@ -203,7 +238,8 @@ class YokeProcessor(
       hostComponent = hostComponent,
       isBinding = false,
       isFactory = false,
-      isViewModel = symbol.isViewModel())
+      isViewModel = symbol.isViewModel(),
+      needsSavedStateHandle = hasSavedStateHandle)
   }
 
   /**
@@ -215,7 +251,15 @@ class YokeProcessor(
     componentScope: ClassName?,
     hostComponent: KSClassDeclaration
   ): DependencyNode? {
-    val returnType = func.returnType?.resolve().takeUnless { it == null || it.isError } ?: return null
+    val returnType = func.returnType?.resolve()
+    if (returnType == null || returnType.isError) {
+      logger.error(
+        "Unable to resolve return type for @Provides function ${func.simpleName.asString()} in module ${module.simpleName.asString()}. " + "Ensure the return type is valid and all dependencies are available.",
+        func
+      )
+      return null
+    }
+
     val key = DependencyKey(returnType.toTypeName(), func.getQualifier())
     val scope = func.getScope() ?: componentScope
 
@@ -241,17 +285,31 @@ class YokeProcessor(
     func: KSFunctionDeclaration, componentScope: ClassName?, hostComponent: KSClassDeclaration
   ): DependencyNode? {
     if (!func.modifiers.contains(Modifier.ABSTRACT)) {
-      logger.error("@Binds function must be abstract", func)
+      logger.error(
+        "@Binds function ${func.simpleName.asString()} must be abstract. " + "Change the function to: abstract fun ${func.simpleName.asString()}(...): ReturnType",
+        func
+      )
       return null
     }
 
     val implParam = func.parameters.singleOrNull()
     if (implParam == null) {
-      logger.error("@Binds function must have exactly one parameter", func)
+      logger.error(
+        "@Binds function ${func.simpleName.asString()} must have exactly one parameter (the implementation). " + "Example: @Binds abstract fun bindRepository(impl: RepositoryImpl): Repository",
+        func
+      )
       return null
     }
 
-    val returnType = func.returnType?.resolve().takeUnless { it == null || it.isError } ?: return null
+    val returnType = func.returnType?.resolve()
+    if (returnType == null || returnType.isError) {
+      logger.error(
+        "Unable to resolve return type for @Binds function ${func.simpleName.asString()}. " + "Ensure the return type is a valid interface or superclass.",
+        func
+      )
+      return null
+    }
+
     val key = DependencyKey(returnType.toTypeName(), func.getQualifier())
     val implKey = implParam.toDependencyKey(func, logger)
     val scope = func.getScope() ?: componentScope
@@ -290,16 +348,37 @@ class YokeProcessor(
     val localNodes = graph.values.filter { it.hostComponent.toClassName() == componentCn }.distinctBy { it.key }
     val localKeys = localNodes.map { it.key }.toSet()
     val parentDecl = parentMap[component]
+    val bindsInstanceParams = component.primaryConstructor?.parameters?.filter { it.isBindsInstance() } ?: emptyList()
 
     val fileSpec = FileSpec.builder(implCn).apply {
       addType(
         TypeSpec.classBuilder(implCn).addModifiers(KModifier.INTERNAL).addSuperinterface(componentCn)
           .addSuperinterface(containerCn).apply {
+            val constructorBuilder = FunSpec.constructorBuilder()
+
             if (parentDecl != null) {
               val parentImplCn = ClassName(parentDecl.packageName.asString(), "${parentDecl.simpleName.asString()}Impl")
-              primaryConstructor(FunSpec.constructorBuilder().addParameter("parent", parentImplCn).build())
+              constructorBuilder.addParameter("parent", parentImplCn)
               addProperty(PropertySpec.builder("parent", parentImplCn, KModifier.PRIVATE).initializer("parent").build())
             }
+
+            bindsInstanceParams.forEach { param ->
+              val paramType = param.type.resolve().toTypeName()
+              val paramName = param.name!!.asString()
+              constructorBuilder.addParameter(paramName, paramType)
+              addProperty(
+                PropertySpec.builder(paramName, paramType, KModifier.PRIVATE).initializer(paramName).build()
+              )
+
+              val bindsKey = DependencyKey(paramType, param.getQualifier())
+              addProperty(
+                PropertySpec.builder(
+                  bindsKey.toProviderName(), providerCn.parameterizedBy(paramType), KModifier.INTERNAL
+                ).initializer(CodeBlock.of("%T { %L }", lazyCn, paramName)).build()
+              )
+            }
+
+            primaryConstructor(constructorBuilder.build())
 
             localNodes.forEach { node ->
               addProperty(generateProviderProperty(node, localKeys, componentScope, parentDecl))
@@ -329,7 +408,11 @@ class YokeProcessor(
     node: DependencyNode, localKeys: Set<DependencyKey>, componentScope: ClassName?, parentDecl: KSClassDeclaration?
   ): PropertySpec {
     val providerName = node.key.toProviderName()
-    val providerType = providerCn.parameterizedBy(node.key.typeName)
+    val providerType = if (node.isViewModel) {
+      viewModelProviderCn.parameterizedBy(node.key.typeName)
+    } else {
+      providerCn.parameterizedBy(node.key.typeName)
+    }
 
     return when {
       node.isBinding && node.dependencies.isNotEmpty() -> {
@@ -424,6 +507,57 @@ class YokeProcessor(
         )
       }
 
+      node.isViewModel && node.needsSavedStateHandle -> {
+        val constructor = (node.declaration as KSClassDeclaration).primaryConstructor!!
+        constructor.parameters.filter { !it.isSavedStateHandle() }
+
+        CodeBlock.builder().apply {
+          add("%T { extras ->\n", viewModelProviderCn)
+          indent()
+
+          val constructorArgs = constructor.parameters.map { param ->
+            when {
+              param.isSavedStateHandle() -> CodeBlock.of("extras.%M()", createSavedStateHandleMn)
+              else -> {
+                val depKey = param.toDependencyKey(node.declaration, logger)
+                val depProvider = if (depKey in localKeys) {
+                  depKey.toProviderName()
+                } else if (parentDecl != null) {
+                  "parent.${depKey.toProviderName()}"
+                } else {
+                  depKey.toProviderName()
+                }
+                CodeBlock.of("%L.get()", depProvider)
+              }
+            }
+          }
+
+          add("%T(\n", node.declaration.toClassName())
+          indent()
+          add(constructorArgs.joinToCode(",\n"))
+          unindent()
+          add("\n)")
+          unindent()
+          add("\n}")
+        }.build()
+      }
+
+      node.isViewModel -> {
+        val args = node.dependencies.joinToString(", ") { depKey ->
+          val depProvider = if (depKey in localKeys) {
+            depKey.toProviderName()
+          } else if (parentDecl != null) {
+            "parent.${depKey.toProviderName()}"
+          } else {
+            depKey.toProviderName()
+          }
+          "$depProvider.get()"
+        }
+        CodeBlock.of(
+          "%T { _ -> %T($args) }", viewModelProviderCn, (node.declaration as KSClassDeclaration).toClassName()
+        )
+      }
+
       else -> {
         val args = node.dependencies.joinToString(", ") { depKey ->
           val depProvider = if (depKey in localKeys) {
@@ -460,15 +594,20 @@ class YokeProcessor(
     val rootComponent = parentMap.entries.find { it.value == null }?.key
 
     if (rootComponent == null) {
-      logger.error("No root @YokeComponent found.", entryPoint)
+      logger.error(
+        "No root @YokeComponent found. Ensure you have a component annotated with @YokeComponent that is not a subcomponent.",
+        entryPoint
+      )
       return
     }
     val rootImplCn = ClassName(rootComponent.packageName.asString(), "${rootComponent.simpleName.asString()}Impl")
+    val bindsInstanceParams =
+      rootComponent.primaryConstructor?.parameters?.filter { it.isBindsInstance() } ?: emptyList()
 
     val fileSpec = FileSpec.builder(packageName, "YokeGenerated").apply {
       addType(generateResolver(graph, parentMap, rootComponent))
-      addFunction(generateYokeApplication(rootImplCn))
-      addFunction(generateYokeInitializer(rootImplCn))
+      addFunction(generateYokeApplication(rootImplCn, bindsInstanceParams))
+      addFunction(generateYokeInitializer(rootImplCn, bindsInstanceParams))
     }.build()
 
     fileSpec.writeTo(codeGenerator, Dependencies(true, *sources))
@@ -509,7 +648,6 @@ class YokeProcessor(
         )
       }.build()
   }
-
 
   /**
    * Builds the `CodeBlock` for the `getProvider` method in the resolver.
@@ -585,7 +723,7 @@ class YokeProcessor(
 
       addStatement(
         "else -> error(%P)",
-        "Yoke: No provider found for \${kClass.simpleName}\${qualifier?.let { \" with qualifier \${it.simpleName}\" } ?: \"\"}. " + "Ensure the type is annotated with @Injectable or @Provides and @ContributesTo a component."
+        "Yoke DI Error: No provider found for \${kClass.simpleName}\${qualifier?.let { \" qualified by \${it.simpleName}\" } ?: \"\"}.\n\n" + "Possible solutions:\n" + "1. Ensure the class is annotated with @Injectable and @ContributesTo(YourComponent::class)\n" + "2. For interfaces, check that an implementation is bound using @Binds\n" + "3. For external dependencies, provide them via @Provides in a @Module\n" + "4. If using qualifiers, verify both the provider and injection site use matching qualifiers\n" + "5. Ensure the dependency is available in the correct component scope"
       )
 
       endControlFlow()
@@ -600,9 +738,14 @@ class YokeProcessor(
    * Generates a helper function to create the root component instance.
    * This is used for non-composable initialization.
    */
-  private fun generateYokeInitializer(rootImplCn: ClassName): FunSpec {
-    return FunSpec.builder("createYokeRoot").addModifiers(KModifier.INTERNAL).returns(containerCn)
-      .addStatement("return %T()", rootImplCn).build()
+  private fun generateYokeInitializer(rootImplCn: ClassName, bindsInstanceParams: List<KSValueParameter>): FunSpec {
+    return FunSpec.builder("createYokeRoot").addModifiers(KModifier.INTERNAL).returns(containerCn).apply {
+      bindsInstanceParams.forEach { param ->
+        addParameter(param.name!!.asString(), param.type.resolve().toTypeName())
+      }
+      val args = bindsInstanceParams.joinToString(", ") { it.name!!.asString() }
+      addStatement("return %T($args)", rootImplCn)
+    }.build()
   }
 
   /**
@@ -611,34 +754,39 @@ class YokeProcessor(
    * and providing them to the rest of the app via `CompositionLocal`s. It also initializes
    * the `YokeGlobal` object for non-composable access.
    */
-  private fun generateYokeApplication(rootImplCn: ClassName): FunSpec {
+  private fun generateYokeApplication(rootImplCn: ClassName, bindsInstanceParams: List<KSValueParameter>): FunSpec {
     val yokeGlobalCn = ClassName("io.github.yhpgi.yoke.di", "YokeGlobal")
     return FunSpec.builder("YokeApplication").addAnnotation(ClassName("androidx.compose.runtime", "Composable"))
       .addAnnotation(
         AnnotationSpec.builder(Suppress::class).addMember("%S", "DEPRECATION_ERROR").build()
-      ).addParameter(
+      ).apply {
+        bindsInstanceParams.forEach { param ->
+          addParameter(param.name!!.asString(), param.type.resolve().toTypeName())
+        }
+      }.addParameter(
         "content", LambdaTypeName.get(returnType = UNIT).copy(
           annotations = listOf(AnnotationSpec.builder(ClassName("androidx.compose.runtime", "Composable")).build())
         )
       ).addCode(
-        """
-    |val rootContainer = %M { %T() }
-    |val yokeContext = %M(rootContainer) { %T(rootContainer) }
-    |
-    |// Initialize global state for non-composable access, if not already done.
-    |if (%T.context == null) {
-    |  %T.context = yokeContext
-    |  %T.resolver = GeneratedYokeResolver
-    |}
-    |
-    |%T(
-    |  %T provides rootContainer,
-    |  %T provides yokeContext,
-    |  %T provides GeneratedYokeResolver
-    |) {
-    |  content()
-    |}
-    |""".trimMargin(),
+        buildString {
+          val args = bindsInstanceParams.joinToString(", ") { it.name!!.asString() }
+          appendLine("|val rootContainer = %M { %T($args) }")
+          appendLine("|val yokeContext = %M(rootContainer) { %T(rootContainer) }")
+          appendLine("|")
+          appendLine("|if (%T.context == null) {")
+          appendLine("|  %T.context = yokeContext")
+          appendLine("|  %T.resolver = GeneratedYokeResolver")
+          appendLine("|}")
+          appendLine("|")
+          appendLine("|%T(")
+          appendLine("|  %T provides rootContainer,")
+          appendLine("|  %T provides yokeContext,")
+          appendLine("|  %T provides GeneratedYokeResolver")
+          appendLine("|) {")
+          appendLine("|  content()")
+          appendLine("|}")
+          append("|")
+        }.trimMargin(),
         MemberName("androidx.compose.runtime", "remember"),
         rootImplCn,
         MemberName("androidx.compose.runtime", "remember"),
@@ -666,10 +814,8 @@ class YokeProcessor(
       graph[key]?.dependencies?.forEach { dependencyKey ->
         if (dependencyKey in visiting) {
           val cyclePath = path.subList(path.indexOf(dependencyKey), path.size)
-          logger.error(
-            "Cyclic dependency detected: ${cyclePath.joinToString(" -> ") { it.typeName.toString() }} -> ${dependencyKey.typeName}",
-            graph[key]?.declaration
-          )
+          logger.error("Cyclic dependency detected:\n" + cyclePath.joinToString("\n -> ") { "  ${it.typeName}" } + "\n -> ${dependencyKey.typeName}\n\n" + "To fix this cycle:\n" + "1. Use Provider<T> to break the cycle by injecting a lazy provider\n" + "2. Restructure your dependencies to avoid circular references\n" + "3. Consider using an intermediate factory or service locator pattern",
+            graph[key]?.declaration)
           return
         }
         if (dependencyKey !in visited) {
@@ -733,6 +879,7 @@ data class DependencyKey(val typeName: TypeName, val qualifier: ClassName?) {
  * @property isFactory True if this node represents a factory for an assisted-injected type.
  * @property providesModule If this node is from a `@Provides` function, this holds the enclosing module.
  * @property isViewModel True if the provided type is a subclass of `androidx.lifecycle.ViewModel`.
+ * @property needsSavedStateHandle True if provided type is a subclass of `androidx.lifecycle.SavedStateHandle`.
  */
 data class DependencyNode(
   val key: DependencyKey,
@@ -745,7 +892,8 @@ data class DependencyNode(
   val isBinding: Boolean,
   val isFactory: Boolean,
   val providesModule: KSClassDeclaration? = null,
-  val isViewModel: Boolean = false
+  val isViewModel: Boolean = false,
+  val needsSavedStateHandle: Boolean = false
 )
 
 /**
@@ -784,6 +932,11 @@ private fun KSDeclaration.isModule(): Boolean = hasAnnotation("Module")
 private fun KSFunctionDeclaration.isProvides(): Boolean = hasAnnotation("Provides")
 private fun KSFunctionDeclaration.isBinds(): Boolean = hasAnnotation("Binds")
 private fun KSValueParameter.isAssisted(): Boolean = hasAnnotation("Assisted")
+private fun KSValueParameter.isBindsInstance(): Boolean = hasAnnotation("BindsInstance")
+private fun KSValueParameter.isSavedStateHandle(): Boolean {
+  val typeName = type.resolve().toTypeName()
+  return typeName.toString() == "androidx.lifecycle.SavedStateHandle"
+}
 
 private fun KSAnnotated.hasAnnotation(simpleName: String): Boolean {
   return annotations.any { it.shortName.asString() == simpleName }
@@ -795,7 +948,10 @@ private fun KSAnnotated.hasAnnotation(simpleName: String): Boolean {
 private fun KSValueParameter.toDependencyKey(parent: KSDeclaration, logger: KSPLogger): DependencyKey {
   val resolvedType = type.resolve()
   if (resolvedType.isError) {
-    logger.error("Unresolved type for parameter `${name?.asString()}` in `${parent.qualifiedName?.asString()}`.", this)
+    logger.error(
+      "Unable to resolve type for parameter `${name?.asString()}` in `${parent.qualifiedName?.asString()}`.\n" + "Ensure all dependencies are properly imported and available in the classpath.",
+      this
+    )
   }
   return DependencyKey(resolvedType.toTypeName(), getQualifier())
 }

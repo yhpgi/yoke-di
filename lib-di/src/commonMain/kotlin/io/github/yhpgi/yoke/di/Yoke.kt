@@ -56,6 +56,16 @@ class SingletonProvider<out T>(
   override fun get(): T = value
 }
 
+class ViewModelProvider<out T : ViewModel>(
+  private val factory: (CreationExtras) -> T
+) : Provider<T> {
+  override fun get(): T = throw UnsupportedOperationException(
+    "ViewModelProvider.get() should not be called directly. Use it with the viewModel() factory."
+  )
+
+  fun create(extras: CreationExtras): T = factory(extras)
+}
+
 /**
  * A `CompositionLocal` that holds the root [DIContainer] for the current composition.
  * Access this via `LocalDIContainer.current`.
@@ -238,12 +248,19 @@ class ViewModelBuilder<T : ViewModel> @PublishedApi internal constructor(
     val provider = resolver.getProvider(kClass, qualifier)
 
     return viewModel(
-      modelClass = kClass, viewModelStoreOwner = owner, factory = object : ViewModelProvider.Factory {
+      modelClass = kClass,
+      viewModelStoreOwner = owner,
+      factory = object : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <VM : ViewModel> create(modelClass: KClass<VM>, extras: CreationExtras): VM {
-          return provider.get() as VM
+          return if (provider is io.github.yhpgi.yoke.di.ViewModelProvider) {
+            provider.create(extras) as VM
+          } else {
+            provider.get() as VM
+          }
         }
-      })
+      }
+    )
   }
 }
 
@@ -322,8 +339,16 @@ inline fun <reified T : Any> injectGlobal(
   builder: InjectBuilder<T>.() -> Unit = {}
 ): T {
   val context = YokeGlobal.context
-    ?: error("Yoke is not initialized. Make sure to wrap your Composable app in YokeApplication { ... } or call AndroidYoke.initialize() in your Application class.")
-  val resolver = YokeGlobal.resolver ?: error("Yoke resolver not found. Initialization failed.")
+    ?: error(
+      "Yoke DI Error: DI context is not initialized.\n\n" +
+        "Solutions:\n" +
+        "1. Wrap your Composable app in YokeApplication { ... }\n" +
+        "2. On Android, call AndroidYoke.initialize(application) in your Application.onCreate()\n" +
+        "3. Ensure YokeApplication has been composed at least once before calling injectGlobal()"
+    )
+  val resolver = YokeGlobal.resolver ?: error(
+    "Yoke DI Error: Resolver not initialized. This should not happen if context is available."
+  )
 
   val injectionBuilder = InjectBuilder(T::class)
   injectionBuilder.builder()

@@ -30,7 +30,8 @@ data class HomeState(
     Feature("Qualifiers (@QualifiedBy)", Screen.Qualifiers),
     Feature("Assisted Injection (@Assisted)", Screen.AssistedInject),
     Feature("Non-Composable Injection", Screen.Worker),
-    Feature("Complete DSL API", Screen.Dsl)
+    Feature("Complete DSL API", Screen.Dsl),
+    Feature("Saved State Handle Injection", Screen.SavedState)
   )
 )
 

@@ -16,6 +16,7 @@ import io.github.yhpgi.yoke.sample.presentation.feature.dsl.DslScreen
 import io.github.yhpgi.yoke.sample.presentation.feature.home.HomeScreen
 import io.github.yhpgi.yoke.sample.presentation.feature.provides.ProvidesScreen
 import io.github.yhpgi.yoke.sample.presentation.feature.qualifier.QualifierScreen
+import io.github.yhpgi.yoke.sample.presentation.feature.savedstate.SavedStateScreen
 import io.github.yhpgi.yoke.sample.presentation.feature.scope.ScopeScreen
 import io.github.yhpgi.yoke.sample.presentation.feature.worker.WorkerScreen
 import io.github.yhpgi.yoke.sample.presentation.navigation.Screen
@@ -63,6 +64,7 @@ fun App() {
         composable<Screen.AssistedInject> { AssistedInjectScreen() }
         composable<Screen.Worker> { WorkerScreen() }
         composable<Screen.Dsl> { DslScreen() }
+        composable<Screen.SavedState> { SavedStateScreen() }
       }
     }
   }

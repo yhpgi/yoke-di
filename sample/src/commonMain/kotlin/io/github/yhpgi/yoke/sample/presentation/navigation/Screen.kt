@@ -42,4 +42,8 @@ sealed interface Screen {
   /** The screen demonstrating the full DSL API. */
   @Serializable
   data object Dsl : Screen
+
+  /** The screen demonstrating savedStateHandle injection. */
+  @Serializable
+  data object SavedState : Screen
 }
