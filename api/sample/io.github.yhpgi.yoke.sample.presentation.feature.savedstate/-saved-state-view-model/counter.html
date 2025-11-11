@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>DependencyNode</title>
+    <title>counter</title>
 <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
@@ -43,7 +43,7 @@
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
-                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":lib-di-processor/main">jvm</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":sample/commonMain">common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
                 <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
@@ -52,11 +52,11 @@
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
-                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
                             <label class="checkbox">
-                                <input type="checkbox" class="checkbox--input" id=":lib-di-processor/main" data-filter=":lib-di-processor/main">
+                                <input type="checkbox" class="checkbox--input" id=":sample/commonMain" data-filter=":sample/commonMain">
                                 <span class="checkbox--icon"></span>
-                                jvm
+                                common
                             </label>
                         </li>
                 </ul>
@@ -90,12 +90,12 @@
         </nav>
         <div id="resizer" class="resizer" data-item-type="BAR"></div>
         <div id="main" data-item-type="SECTION" role="main">
-<div class="main-content" data-page-type="member" id="content" pageids="lib-di-processor::io.github.yhpgi.yoke.processor/DependencyNode/DependencyNode/#io.github.yhpgi.yoke.processor.DependencyKey#com.google.devtools.ksp.symbol.KSDeclaration#kotlin.collections.List[io.github.yhpgi.yoke.processor.DependencyKey]#kotlin.collections.List[io.github.yhpgi.yoke.processor.Param]#kotlin.collections.List[io.github.yhpgi.yoke.processor.DependencyKey]#com.squareup.kotlinpoet.ClassName?#com.google.devtools.ksp.symbol.KSClassDeclaration#kotlin.Boolean#kotlin.Boolean#com.google.devtools.ksp.symbol.KSClassDeclaration?#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration//-643380206">
-  <div class="breadcrumbs"><a href="../../index.html">lib-di-processor</a><span class="delimiter">/</span><a href="../index.html">io.github.yhpgi.yoke.processor</a><span class="delimiter">/</span><a href="index.html">DependencyNode</a><span class="delimiter">/</span><span class="current">DependencyNode</span></div>
+<div class="main-content" data-page-type="member" id="content" pageids="sample::io.github.yhpgi.yoke.sample.presentation.feature.savedstate/SavedStateViewModel/counter/#/PointingToDeclaration//-1744787147">
+  <div class="breadcrumbs"><a href="../../index.html">sample</a><span class="delimiter">/</span><a href="../index.html">io.github.yhpgi.yoke.sample.presentation.feature.savedstate</a><span class="delimiter">/</span><a href="index.html">SavedStateViewModel</a><span class="delimiter">/</span><span class="current">counter</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Dependency</span><wbr><span><span>Node</span></span></h1>
+    <h1 class="cover"><span><span>counter</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib-di-processor/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="../-dependency-key/index.html">DependencyKey</a><span class="token punctuation">, </span></span><span class="parameter ">declaration<span class="token operator">: </span><span data-unresolved-link="com.google.devtools.ksp.symbol/KSDeclaration///PointingToDeclaration/">KSDeclaration</span><span class="token punctuation">, </span></span><span class="parameter ">dependencies<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-dependency-key/index.html">DependencyKey</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">assistedParams<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-param/index.html">Param</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">bindings<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-dependency-key/index.html">DependencyKey</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">scope<span class="token operator">: </span><span data-unresolved-link="com.squareup.kotlinpoet/ClassName///PointingToDeclaration/">ClassName</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">hostComponent<span class="token operator">: </span><span data-unresolved-link="com.google.devtools.ksp.symbol/KSClassDeclaration///PointingToDeclaration/">KSClassDeclaration</span><span class="token punctuation">, </span></span><span class="parameter ">isBinding<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">isFactory<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">providesModule<span class="token operator">: </span><span data-unresolved-link="com.google.devtools.ksp.symbol/KSClassDeclaration///PointingToDeclaration/">KSClassDeclaration</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">isViewModel<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">needsSavedStateHandle<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sample/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="counter.html">counter</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span></div></div></div>
 </div>
     <div class="footer">
         <div class="footer--container">

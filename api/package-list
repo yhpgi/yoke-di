@@ -20,6 +20,7 @@ io.github.yhpgi.yoke.sample.presentation.feature.dsl
 io.github.yhpgi.yoke.sample.presentation.feature.home
 io.github.yhpgi.yoke.sample.presentation.feature.provides
 io.github.yhpgi.yoke.sample.presentation.feature.qualifier
+io.github.yhpgi.yoke.sample.presentation.feature.savedstate
 io.github.yhpgi.yoke.sample.presentation.feature.scope
 io.github.yhpgi.yoke.sample.presentation.feature.worker
 io.github.yhpgi.yoke.sample.presentation.navigation
