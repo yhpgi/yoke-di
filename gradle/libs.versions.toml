@@ -15,7 +15,7 @@ androidx-appcompat = "1.7.1"
 android-worker-runtime-ktx = "2.11.0"
 jetbrains-viewmodel = "2.9.6"
 coroutines = "1.10.2"
-compose-hotreload = "1.0.0-rc02"
+compose-hotreload = "1.1.0-alpha01"
 navigation-compose = "2.9.1"
 dokka = "2.1.0"
 
